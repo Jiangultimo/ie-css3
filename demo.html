@@ -90,16 +90,14 @@
                 $('.flipper').mouseenter(function(){
                     $(this).find('.front').animate({'opacity':'0'},250,function(){
                         $(this).css('z-index',0).removeAttr('style');
-                    });
-                    $(this).find('.back').animate({'opacity':1},250,function(){
+                    }).end().find('.back').animate({'opacity':1},250,function(){
                         $(this).css('z-index',2).removeAttr('style');
                     });
                 })
                 $('.flipper').mouseleave(function(){
                     $(this).find('.back').animate({'opacity':'0'},250,function(){
                         $(this).css('z-index',0).attr('backface-visibility','hidden')
-                    });
-                    $(this).find('.front').animate({'opacity':1},250,function(){
+                    }).end().find('.front').animate({'opacity':1},250,function(){
                         $(this).css('z-index',2).attr('backface-visibility','hidden');
                     });
                 })
