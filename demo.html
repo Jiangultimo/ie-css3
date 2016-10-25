@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>demo</title>
+</head>
+<style>
+    .flip-container {
+        perspective: 1000px;
+        color: #fff;
+    }
+
+    .flip-container:hover .flipper, .flip-container:hover .flipper {
+        transform: rotateY(180deg);
+    }
+
+    .flip-container, .front, .back {
+        width: 320px;
+        height: 480px;
+    }
+
+    .flipper {
+        transition: .6s;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+
+    .front, .back {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .front {
+        background-color: #f3c000;
+    }
+
+    .back {
+        background-color: #000;
+        transform: rotateY(180deg);
+    }
+</style>
+<body>
+<div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+    <div class="flipper">
+        <div class="front" style="backface-visibility: hidden;">
+            i am front
+        </div>
+        <div class="back" style="backface-visibility: hidden;">
+            i am back
+        </div>
+    </div>
+</div>
+<script src="../vendor/jQuery/jquery-1.9.1.js"></script>
+<script src="../vendor/Flip-jQuery/jquery.flip.min.js"></script>
+
+<script>
+
+    function powerIE() {
+        var Sys = {};
+        var ua = navigator.userAgent.toLowerCase();
+        var s;
+        (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1] : (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] : 0;
+
+
+        if (Sys.ie) {
+            return Sys.ie;
+        } else {
+            return null;
+        }
+    }
+    ;
+    function isIE() {//ie5-9
+        var ele = document.createElement('i');
+        ele.innerHTML = '<!--[if IE]><i></i><![endif]-->';
+        return ele.getElementsByTagName('i').length === 1;
+    }
+
+    $(document).ready(function () {
+        if (powerIE()) {
+            if (powerIE() < 10) {
+                $('.flipper').find('.front').css('z-index', 2);
+                $('.flipper').mouseenter(function () {
+                    $(this).find('.front').hide().css('z-index', 0).end().find('.back').show().css('z-index', 2);
+                });
+                $('.flipper').mouseleave(function () {
+                    $(this).find('.back').hide().css('z-index', 0).end().find('.front').show().css('z-index', 2);
+                });
+            }else{
+                $('.flipper').mouseenter(function(){
+                    $(this).find('.front').animate({'opacity':'0'},250,function(){
+                        $(this).css('z-index',0).removeAttr('style');
+                    });
+                    $(this).find('.back').animate({'opacity':1},250,function(){
+                        $(this).css('z-index',2).removeAttr('style');
+                    });
+                })
+                $('.flipper').mouseleave(function(){
+                    $(this).find('.back').animate({'opacity':'0'},250,function(){
+                        $(this).css('z-index',0).attr('backface-visibility','hidden')
+                    });
+                    $(this).find('.front').animate({'opacity':1},250,function(){
+                        $(this).css('z-index',2).attr('backface-visibility','hidden');
+                    });
+                })
+            }
+        } else {
+
+        }
+    })
+</script>
+
+</body>
+</html>
